@@ -6,18 +6,23 @@ chrome.downloads.onDeterminingFilename.addListener((item, suggest) => {
 
     if (["jpg", "jpeg", "png", "gif"].includes(ext)) {
         folder = "img/";
-    } else if (["pdf", "docx", "doc"].includes(ext)) {
+    } else if (["pdf", "docx", "doc", "xls", "xlsx", "ppt", "pptx", "txt", "drawio"].includes(ext)) {
         folder = "docs/";
-    } else if (["mp4", "mkv"].includes(ext)) {
+    } else if (["mp4", "mkv", "avi", "mov"].includes(ext)) {
         folder = "video/";
-    } else if (["zip", "rar"].includes(ext)) {
+    } else if (["zip", "rar", "7z", "tar", "gz"].includes(ext)) {
         folder = "package/";
-    } else if (["mp3", "wav"].includes(ext)) {
+    } else if (["mp3", "wav", "flac"].includes(ext)) {
         folder = "audio/";
-    } else if (["exe", "msi"].includes(ext)) {
+    } else if (["exe", "msi", "deb", "rpm"].includes(ext)) {
         folder = "app/";
     } else {
         suggest({ filename: filename });
+        return;
+    }
+
+    if (!folder) {
+        suggest({ filename: filename, conflictAction: "uniquify" });
         return;
     }
 
